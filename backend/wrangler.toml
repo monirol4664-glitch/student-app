@@ -5,4 +5,4 @@ compatibility_date = "2026-03-07"
 [[d1_databases]]
 binding = "DB"
 database_name = "student-db"
-database_id = ""  # Run `wrangler d1 create student-db` to get ID
+database_id = "b14b9029-6548-4828-a6f7-e2ea69b7a582"  # Run `wrangler d1 create student-db` to get ID
