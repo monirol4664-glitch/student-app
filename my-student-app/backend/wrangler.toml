@@ -1,0 +1,8 @@
+name = "student-api"
+main = "src/index.ts"
+compatibility_date = "2026-03-07"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "b14b9029-6548-4828-a6f7-e2ea69b7a582"
+database_id = ""  # Run `wrangler d1 create student-db` to get ID
