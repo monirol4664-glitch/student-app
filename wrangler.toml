@@ -5,5 +5,5 @@ compatibility_date = "2026-03-08"
 [[d1_databases]]
 binding = "DB"
 database_name = "college_db"
-database_id = "PASTE_YOUR_ID_HERE_LATER"
+database_id = "382dd54e-c53c-4ca2-b385-9d2edf1a1dce"
 
