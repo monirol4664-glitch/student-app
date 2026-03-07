@@ -3,5 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: './'
+  base: './',
+  publicDir: false  // ← THIS DISABLES public folder requirement
 })
