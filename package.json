@@ -1,0 +1,27 @@
+{
+"name": "student-app",
+"version": "1.0.0",
+"private": true,
+
+"workspaces": [
+"apps/",
+"packages/"
+],
+
+"scripts": {
+"dev:web": "npm --workspace apps/web run dev",
+"dev:api": "npm --workspace apps/api run dev",
+
+"build:web": "npm --workspace apps/web run build",
+
+"deploy:api": "npm --workspace apps/api run deploy",
+
+"seed": "ts-node scripts/seed.ts"
+
+},
+
+"devDependencies": {
+"typescript": "^5.4.0",
+"ts-node": "^10.9.1"
+}
+}
