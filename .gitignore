@@ -1,17 +1,5 @@
-# dependencies
-node_modules
-
-# environment variables
+node_modules/
 .env
-
-# Next.js build
-.next
-
-# build output
-dist
-
-# logs
-npm-debug.log
-
-# system files
-.DS_Store
+.next/
+dist/
+build/
