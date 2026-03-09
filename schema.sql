@@ -1,20 +1,28 @@
 CREATE TABLE students (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-name TEXT,
-email TEXT UNIQUE,
-password TEXT,
+name TEXT NOT NULL,
+email TEXT UNIQUE NOT NULL,
+password TEXT NOT NULL,
 department TEXT,
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE courses (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-course_name TEXT,
-course_code TEXT
+course_name TEXT NOT NULL,
+course_code TEXT UNIQUE
 );
 
 CREATE TABLE enrollments (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 student_id INTEGER,
-course_id INTEGER
+course_id INTEGER,
+enrolled_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE grades (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+student_id INTEGER,
+course_id INTEGER,
+grade TEXT
 );
