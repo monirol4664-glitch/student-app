@@ -1,16 +1,14 @@
 export async function onRequest(context) {
+  // Enable CORS
   const headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
   };
 
   try {
-    const { results } = await context.env.DB.prepare(`
-      SELECT courses.*, faculty.name as instructor_name 
-      FROM courses 
-      LEFT JOIN faculty ON courses.instructor_id = faculty.id
-      ORDER BY courses.department, courses.course_code
-    `).all();
+    const { results } = await context.env.DB.prepare(
+      "SELECT * FROM faculty ORDER BY department, name"
+    ).all();
     
     return new Response(JSON.stringify(results), { headers });
   } catch (error) {

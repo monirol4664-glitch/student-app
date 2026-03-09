@@ -1,0 +1,8 @@
+name = "student-app"
+compatibility_date = "2025-03-09"
+
+# D1 Database Configuration
+[[d1_databases]]
+binding = "DB"
+database_name = "university-db"
+database_id = "YOUR_DATABASE_ID_HERE"  # Replace with your actual ID
