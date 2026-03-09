@@ -1,19 +1,14 @@
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Login from "./pages/login.jsx"
+import Register from "./pages/register.jsx"
 
-export default function App(){
+export default function App() {
+  return (
+    <div>
+      <h1>University System</h1>
 
-return(
+      <Login />
+      <Register />
 
-<div>
-
-<h1>University System</h1>
-
-<Login/>
-<Register/>
-
-</div>
-
-)
-
+    </div>
+  )
 }
