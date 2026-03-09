@@ -1,7 +1,0 @@
-
-name = "backend"
-main = "worker/worker.js"
-compatibility_date = "2025-01-01"
-binding = "DB"
-database_name = "university-db"
-database_id = "95464ce8-9aed-4179-8c56-24123cfdfee7"
