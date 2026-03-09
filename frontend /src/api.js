@@ -1,4 +1,4 @@
-const API = "https://your-worker-domain.workers.dev"
+const API = "student-api.monirol4664.workers.dev"
 
 export async function register(data){
  return fetch(API+"/register",{
