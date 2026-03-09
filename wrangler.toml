@@ -1,8 +1,0 @@
-name = "student-app"
-compatibility_date = "2025-03-09"
-
-# D1 Database Configuration
-[[d1_databases]]
-binding = "DB"
-database_name = "university-db"
-database_id = "188c8228-2bac-4253-8b45-9aeef98615c1"  # Replace with your actual ID
