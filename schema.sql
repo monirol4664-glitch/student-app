@@ -1,0 +1,20 @@
+CREATE TABLE students (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT,
+email TEXT UNIQUE,
+password TEXT,
+department TEXT,
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE courses (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+course_name TEXT,
+course_code TEXT
+);
+
+CREATE TABLE enrollments (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+student_id INTEGER,
+course_id INTEGER
+);
