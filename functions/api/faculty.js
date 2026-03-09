@@ -1,20 +1,25 @@
 export async function onRequest(context) {
-  // Enable CORS
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  };
-
   try {
     const { results } = await context.env.DB.prepare(
       "SELECT * FROM faculty ORDER BY department, name"
     ).all();
     
-    return new Response(JSON.stringify(results), { headers });
+    // Add proper caching headers for better performance
+    return new Response(JSON.stringify(results), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=60' // Cache for 60 seconds
+      }
+    });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { 
-      status: 500, 
-      headers 
+    // Better error logging
+    console.error('D1 Error:', error.message);
+    return new Response(JSON.stringify({ 
+      error: 'Database error', 
+      details: error.message 
+    }), { 
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }

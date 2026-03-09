@@ -1,22 +1,11 @@
 export async function onRequest(context) {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  };
-
   try {
-    const { results } = await context.env.DB.prepare(`
-      SELECT courses.*, faculty.name as instructor_name 
-      FROM courses 
-      LEFT JOIN faculty ON courses.instructor_id = faculty.id
-      ORDER BY courses.department, courses.course_code
-    `).all();
+    const { results } = await context.env.DB.prepare(
+      "SELECT * FROM courses ORDER BY department, course_code"
+    ).all();
     
-    return new Response(JSON.stringify(results), { headers });
+    return Response.json(results);
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { 
-      status: 500, 
-      headers 
-    });
+    return new Response(error.message, { status: 500 });
   }
 }
