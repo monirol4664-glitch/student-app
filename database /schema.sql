@@ -1,0 +1,25 @@
+CREATE TABLE students (
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ name TEXT,
+ email TEXT UNIQUE,
+ password TEXT
+);
+
+CREATE TABLE admins (
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ username TEXT,
+ password TEXT
+);
+
+CREATE TABLE courses (
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ title TEXT,
+ code TEXT
+);
+
+CREATE TABLE results (
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ student_id INTEGER,
+ course_id INTEGER,
+ grade TEXT
+);
