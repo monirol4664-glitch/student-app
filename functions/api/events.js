@@ -1,21 +1,22 @@
 export async function onRequest(context) {
   try {
     const { results } = await context.env.DB.prepare(`
-      SELECT * FROM news 
-      ORDER BY published_date DESC 
-      LIMIT 20
+      SELECT * FROM events 
+      WHERE start_date >= datetime('now')
+      ORDER BY start_date ASC
+      LIMIT 10
     `).all();
     
     return new Response(JSON.stringify(results), {
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=120' // Cache for 2 minutes
+        'Cache-Control': 'public, max-age=300'
       }
     });
   } catch (error) {
-    console.error('News API Error:', error.message);
+    console.error('Events API Error:', error.message);
     return new Response(JSON.stringify({ 
-      error: 'Failed to fetch news',
+      error: 'Failed to fetch events',
       details: error.message 
     }), { 
       status: 500,

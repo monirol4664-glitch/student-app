@@ -5,4 +5,4 @@ compatibility_date = "2025-03-09"
 [[d1_databases]]
 binding = "DB"
 database_name = "university-db"
-database_id = "6c491afa-95d0-4f2b-b598-50f94e71e85b"  # Replace with your actual ID
+database_id = "188c8228-2bac-4253-8b45-9aeef98615c1"  # Replace with your actual ID
