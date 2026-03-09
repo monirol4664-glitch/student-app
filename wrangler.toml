@@ -5,4 +5,4 @@ compatibility_date = "2025-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "university-db"
-database_id = "YOUR_DATABASE_ID"
+database_id = "470ef372-f6c9-4e4c-af09-e752e2e97c80"
