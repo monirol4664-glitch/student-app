@@ -1,8 +1,0 @@
-name = "student-api"
-main = "worker.js"
-compatibility_date = "2024-01-01"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "university-db"
-database_id = "18f1a81f-39d2-430f-9b19-0948471693f0"
