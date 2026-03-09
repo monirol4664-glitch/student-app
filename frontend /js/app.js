@@ -1,4 +1,4 @@
-const API = "https://your-worker-url.workers.dev"
+const API = "https://backend.monirol4664.workers.dev/"
 
 document.getElementById("registerForm")
 .addEventListener("submit", async (e)=>{
