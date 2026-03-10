@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 export default function Departments() {
   return (
     <div style={{padding:"40px"}}>
@@ -7,12 +5,10 @@ export default function Departments() {
 
       <ul>
         <li>Computer Science</li>
-        <li>Business Administration</li>
+        <li>Business</li>
         <li>Engineering</li>
         <li>Mathematics</li>
       </ul>
-
-      <Link href="/">Back to Home</Link>
     </div>
   )
 }
