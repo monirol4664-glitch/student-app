@@ -6,13 +6,7 @@ export default function Admin()
       <h1>Admin Panel</h1>
       <p>This is where administrators will manage student accounts.</p>
 
-      <button style={{
-        background:"#002147",
-        color:"white",
-        padding:"12px 20px",
-        border:"none",
-        borderRadius:"6px"
-      }}>
+      <button style={darkButton}>
         Manage Student Status
       </button>
     </div>
