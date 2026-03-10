@@ -1,16 +1,7 @@
 import Link from "next/link"
+import { primaryButton, adminButton } from "../styles/buttons"
 
 export default function Home() {
-
-  const buttonStyle = {
-    background:"#ffcc00",
-    padding:"10px 18px",
-    borderRadius:"6px",
-    textDecoration:"none",
-    color:"#002147",
-    fontWeight:"bold",
-    marginRight:"10px"
-  }
 
   return (
     <div style={{fontFamily:"Arial"}}>
@@ -33,8 +24,9 @@ export default function Home() {
           <Link href="/departments" style={{marginRight:15,color:"white"}}>Departments</Link>
           <Link href="/contact" style={{marginRight:15,color:"white"}}>Contact</Link>
 
-          <Link href="/signup" style={buttonStyle}>Sign Up</Link>
-          <Link href="/login" style={buttonStyle}>Login</Link>
+          <Link href="/signup" style={primaryButton}>Sign Up</Link>
+          <Link href="/login" style={primaryButton}>Login</Link>
+          <Link href="/admin" style={adminButton}>Admin Panel</Link>
         </div>
       </nav>
 
@@ -80,7 +72,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* News Section */}
+      {/* News */}
       <section style={{background:"#f5f5f5",padding:"50px"}}>
         <h2 style={{textAlign:"center"}}>Latest News</h2>
 
