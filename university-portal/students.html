@@ -8,11 +8,38 @@
 
 <body>
 
-<h2>Students List</h2>
+<script>
+
+// PROTECT PAGE
+
+if(localStorage.getItem("adminLoggedIn") !== "true"){
+
+window.location.href = "admin-login.html"
+
+}
+
+</script>
+
+<h2>Students List (Admin Only)</h2>
+
+<button onclick="logout()">Logout</button>
 
 <ul id="students"></ul>
 
 <script src="js/app.js"></script>
 
+<script>
+
+function logout(){
+
+localStorage.removeItem("adminLoggedIn")
+
+window.location.href = "index.html"
+
+}
+
+</script>
+
 </body>
+
 </html>
