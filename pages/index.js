@@ -1,6 +1,15 @@
 import Link from "next/link"
 
 export default function Home() {
+  const buttonStyle = {
+  background:"#ffcc00",
+  padding:"10px 18px",
+  borderRadius:"6px",
+  textDecoration:"none",
+  color:"#002147",
+  fontWeight:"bold",
+  marginRight:"10px"
+}
   return (
     <div style={{fontFamily:"Arial"}}>
 
