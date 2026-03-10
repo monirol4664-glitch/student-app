@@ -1,11 +1,14 @@
-export default function About() {
+import Navbar from "../components/Navbar"
+
+export default function About(){
   return (
-    <div style={{padding:"40px"}}>
-      <h1>About Global University</h1>
-      <p>
-        Global University is dedicated to providing world-class education,
-        research opportunities, and community impact.
-      </p>
+    <div>
+      <Navbar/>
+
+      <div style={{padding:"40px"}}>
+        <h1>About Our University</h1>
+        <p>Global University was founded to provide modern education.</p>
+      </div>
     </div>
   )
 }

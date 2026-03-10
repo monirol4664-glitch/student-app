@@ -1,23 +1,19 @@
-import Link from "next/link"
-import { darkButton } from "../styles/buttons"
+import Navbar from "../components/Navbar"
 
-export default function Signup() {
-
+export default function Signup(){
   return (
-    <div style={{fontFamily:"Arial",padding:"40px"}}>
+    <div>
+      <Navbar/>
 
-      <h1>Create Student Account</h1>
+      <div style={{padding:"40px"}}>
+        <h1>Student Signup</h1>
 
-      <input placeholder="Full Name" style={{display:"block",padding:"10px",marginBottom:"10px"}}/>
-      <input placeholder="Email" style={{display:"block",padding:"10px",marginBottom:"10px"}}/>
-      <input placeholder="Password" type="password" style={{display:"block",padding:"10px",marginBottom:"20px"}}/>
+        <input placeholder="Name" style={{display:"block",marginBottom:10}} />
+        <input placeholder="Email" style={{display:"block",marginBottom:10}} />
+        <input placeholder="Password" type="password" style={{display:"block",marginBottom:10}} />
 
-      <button style={darkButton}>Create Account</button>
-
-      <div style={{marginTop:"20px"}}>
-        <Link href="/">Back Home</Link>
+        <button>Register</button>
       </div>
-
     </div>
   )
 }

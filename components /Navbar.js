@@ -8,15 +8,14 @@ export default function Navbar(){
       color:"white",
       padding:"15px",
       display:"flex",
-      justifyContent:"space-between"
+      justifyContent:"space-between",
+      alignItems:"center"
     }}>
       <h2>Global University</h2>
 
       <div>
         <Link href="/" style={{marginRight:15,color:"white"}}>Home</Link>
         <Link href="/about" style={{marginRight:15,color:"white"}}>About</Link>
-        <Link href="/admissions" style={{marginRight:15,color:"white"}}>Admissions</Link>
-        <Link href="/departments" style={{marginRight:15,color:"white"}}>Departments</Link>
         <Link href="/contact" style={{marginRight:15,color:"white"}}>Contact</Link>
 
         <Link href="/login" style={primaryButton}>Login</Link>
