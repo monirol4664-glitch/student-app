@@ -1,8 +1,0 @@
-name = "api"
-main = "worker.js"
-compatibility_date = "2025-01-01"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "university_db"
-database_id = "e6e29324-122c-4fd0-9117-7b8bca018779"
