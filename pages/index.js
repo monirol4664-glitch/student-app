@@ -6,12 +6,14 @@ export default function Home() {
   return (
     <div style={{fontFamily:"Arial"}}>
 
+      {/* Navbar */}
       <nav style={{
         background:"#002147",
         color:"white",
         padding:"15px",
         display:"flex",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        alignItems:"center"
       }}>
         <h2>Global University</h2>
 
@@ -28,13 +30,14 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* Hero */}
       <section style={{padding:"120px",textAlign:"center"}}>
         <h1>Welcome to Global University</h1>
         <p>Empowering the next generation of innovators.</p>
 
         <div style={{marginTop:"20px"}}>
           <Link href="/admissions" style={primaryButton}>Apply Now</Link>
-          <Link href="/departments" style={primaryButton}>Programs</Link>
+          <Link href="/departments" style={primaryButton}>View Programs</Link>
         </div>
       </section>
 

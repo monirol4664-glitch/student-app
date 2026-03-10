@@ -8,8 +8,8 @@ export default function Login() {
 
       <h1>Student Login</h1>
 
-      <input placeholder="Email" style={{display:"block",marginBottom:"10px",padding:"10px"}}/>
-      <input placeholder="Password" type="password" style={{display:"block",marginBottom:"20px",padding:"10px"}}/>
+      <input placeholder="Email" style={{display:"block",padding:"10px",marginBottom:"10px"}}/>
+      <input placeholder="Password" type="password" style={{display:"block",padding:"10px",marginBottom:"20px"}}/>
 
       <button style={darkButton}>Login</button>
 

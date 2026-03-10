@@ -7,11 +7,11 @@ export default function Admin() {
     <div style={{fontFamily:"Arial",padding:"40px"}}>
 
       <h1>Admin Panel</h1>
-      <p>Manage students and application status.</p>
+      <p>Manage student status here.</p>
 
       <div style={{marginTop:"20px"}}>
         <button style={darkButton}>View Students</button>
-        <button style={darkButton}>Approve Applications</button>
+        <button style={darkButton}>Approve Students</button>
         <button style={darkButton}>Update Status</button>
       </div>
 
