@@ -27,11 +27,11 @@ export default function Home() {
         <h2>Global University</h2>
 
         <div>
-          <Link href="/" style={{marginRight:15,color:"white"}}>Home</Link>
-          <Link href="/about" style={{marginRight:15,color:"white"}}>About</Link>
-          <Link href="/admissions" style={{marginRight:15,color:"white"}}>Admissions</Link>
-          <Link href="/departments" style={{marginRight:15,color:"white"}}>Departments</Link>
-          <Link href="/contact" style={{marginRight:15,color:"white"}}>Contact</Link>
+          <Link href="/" style={{marginRight:15,color:"white"},{buttonStyle}}>Home</Link>
+          <Link href="/about" style={{marginRight:15,color:"white"},{buttonStyle}}>About</Link>
+          <Link href="/admissions" style={{marginRight:15,color:"white"},{buttonStyle}}>Admissions</Link>
+          <Link href="/departments" style={{marginRight:15,color:"white"},{buttonStyle}}>Departments</Link>
+          <Link href="/contact" style={{marginRight:15,color:"white"},{buttonStyle}}>Contact</Link>
 
           <Link href="/signup" style={buttonStyle}>Sign Up</Link>
           <Link href="/login" style={buttonStyle}>Login</Link>
