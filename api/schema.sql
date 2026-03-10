@@ -1,0 +1,13 @@
+CREATE TABLE students (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT,
+email TEXT,
+department TEXT
+);
+
+CREATE TABLE courses (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+title TEXT,
+department TEXT,
+credits INTEGER
+);
