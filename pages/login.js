@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { darkButton } from "../styles/buttons.js"
+import { darkButton } from "../styles/buttons"
 
 export default function Login() {
 

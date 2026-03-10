@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { primaryButton, adminButton } from "../styles/buttons.js"
+import { primaryButton, adminButton } from "../styles/buttons"
 
 export default function Navbar(){
 
