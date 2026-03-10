@@ -1,37 +1,22 @@
+import Link from "next/link"
+import { darkButton } from "../styles/buttons"
+
 export default function Signup() {
+
   return (
-    <div style={{padding:"50px",maxWidth:"400px",margin:"auto"}}>
+    <div style={{fontFamily:"Arial",padding:"40px"}}>
 
-      <h1>Student Sign Up</h1>
+      <h1>Student Signup</h1>
 
-      <input
-        type="text"
-        placeholder="Full Name"
-        style={{width:"100%",padding:"10px",marginBottom:"10px"}}
-      />
+      <input placeholder="Full Name" style={{display:"block",marginBottom:"10px",padding:"10px"}}/>
+      <input placeholder="Email" style={{display:"block",marginBottom:"10px",padding:"10px"}}/>
+      <input placeholder="Password" type="password" style={{display:"block",marginBottom:"20px",padding:"10px"}}/>
 
-      <input
-        type="email"
-        placeholder="Email"
-        style={{width:"100%",padding:"10px",marginBottom:"10px"}}
-      />
+      <button style={darkButton}>Create Account</button>
 
-      <input
-        type="password"
-        placeholder="Password"
-        style={{width:"100%",padding:"10px",marginBottom:"10px"}}
-      />
-
-      <button style={{
-        width:"100%",
-        padding:"10px",
-        background:"#ffcc00",
-        border:"none",
-        borderRadius:"6px",
-        fontWeight:"bold"
-      }}>
-        Create Account
-      </button>
+      <div style={{marginTop:"20px"}}>
+        <Link href="/">Back Home</Link>
+      </div>
 
     </div>
   )

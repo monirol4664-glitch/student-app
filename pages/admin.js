@@ -4,31 +4,19 @@ import { darkButton } from "../styles/buttons"
 export default function Admin() {
 
   return (
-    <div style={{fontFamily:"Arial", padding:"40px"}}>
+    <div style={{fontFamily:"Arial",padding:"40px"}}>
 
       <h1>Admin Panel</h1>
-      <p>Manage student accounts and application status.</p>
+      <p>Manage students and application status.</p>
 
-      <div style={{marginTop:"30px"}}>
-
-        <button style={darkButton}>
-          View Students
-        </button>
-
-        <button style={{...darkButton, marginLeft:"10px"}}>
-          Approve Applications
-        </button>
-
-        <button style={{...darkButton, marginLeft:"10px"}}>
-          Update Student Status
-        </button>
-
+      <div style={{marginTop:"20px"}}>
+        <button style={darkButton}>View Students</button>
+        <button style={darkButton}>Approve Applications</button>
+        <button style={darkButton}>Update Status</button>
       </div>
 
-      <div style={{marginTop:"40px"}}>
-        <Link href="/" style={{textDecoration:"none"}}>
-          ← Back to Home
-        </Link>
+      <div style={{marginTop:"30px"}}>
+        <Link href="/">Back Home</Link>
       </div>
 
     </div>
