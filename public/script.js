@@ -1,4 +1,4 @@
-const API = "https://api.monirol4664.workers.dev/api"
+const API = "https://api.monirol4664.workers.dev/"
 
 
 
