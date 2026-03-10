@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar"
-import { darkButton } from "../styles/button.js"
+import { darkButton } from "../styles/buttons.js"
 
 export default function Admin(){
 

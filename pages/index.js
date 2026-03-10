@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar"
 import Link from "next/link"
-import { primaryButton } from "../styles/button.js"
+import { primaryButton } from "../styles/buttons.js"
 
 export default function Home(){
 
