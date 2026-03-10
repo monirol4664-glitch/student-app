@@ -1,15 +1,17 @@
 import Link from "next/link"
 
 export default function Home() {
+
   const buttonStyle = {
-  background:"#ffcc00",
-  padding:"10px 18px",
-  borderRadius:"6px",
-  textDecoration:"none",
-  color:"#002147",
-  fontWeight:"bold",
-  marginRight:"10px"
-}
+    background:"#ffcc00",
+    padding:"10px 18px",
+    borderRadius:"6px",
+    textDecoration:"none",
+    color:"#002147",
+    fontWeight:"bold",
+    marginRight:"10px"
+  }
+
   return (
     <div style={{fontFamily:"Arial"}}>
 
@@ -19,18 +21,20 @@ export default function Home() {
         color:"white",
         padding:"15px",
         display:"flex",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        alignItems:"center"
       }}>
         <h2>Global University</h2>
 
         <div>
-          <Link href="/" style={{marginRight:15,color:"white"},style={buttonStyle}}>Home</Link>
-          <Link href="/about" style={{marginRight:15,color:"white"},style={buttonStyle}}>About</Link>
-          <Link href="/admissions" style={{marginRight:15,color:"white"},style={buttonStyle}}>Admissions</Link>
-          <Link href="/departments" style={{marginRight:15,color:"white"},style={buttonStyle}}>Departments</Link>
-          <Link href="/contact" style={{color:"white"},style={buttonStyle}}>Contact</Link>
+          <Link href="/" style={{marginRight:15,color:"white"}}>Home</Link>
+          <Link href="/about" style={{marginRight:15,color:"white"}}>About</Link>
+          <Link href="/admissions" style={{marginRight:15,color:"white"}}>Admissions</Link>
+          <Link href="/departments" style={{marginRight:15,color:"white"}}>Departments</Link>
+          <Link href="/contact" style={{marginRight:15,color:"white"}}>Contact</Link>
+
           <Link href="/signup" style={buttonStyle}>Sign Up</Link>
-<Link href="/login" style={buttonStyle}>Login</Link>
+          <Link href="/login" style={buttonStyle}>Login</Link>
         </div>
       </nav>
 
