@@ -40,6 +40,11 @@ export default function Home() {
       }}>
         <h1>Welcome to Global University</h1>
         <p>Empowering the next generation of innovators.</p>
+
+        <div style={{marginTop:"20px"}}>
+          <Link href="/admissions" style={primaryButton}>Apply Now</Link>
+          <Link href="/departments" style={primaryButton}>View Programs</Link>
+        </div>
       </section>
 
       {/* Programs */}
@@ -72,7 +77,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* News */}
+      {/* News Section */}
       <section style={{background:"#f5f5f5",padding:"50px"}}>
         <h2 style={{textAlign:"center"}}>Latest News</h2>
 
