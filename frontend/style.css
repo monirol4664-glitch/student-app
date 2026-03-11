@@ -3,7 +3,7 @@ margin:0;
 font-family:Arial, sans-serif;
 background:#f4f6f8;
 display:flex;
-justify-content:center;
+justify-content: center;
 align-items:center;
 height:100vh;
 }
@@ -14,7 +14,7 @@ padding:30px;
 width:320px;
 border-radius:8px;
 box-shadow:0 4px 10px rgba(0,0,0,0.1);
-text-align:center;
+text-align:left;
 }
 
 h1,h2{
@@ -41,7 +41,6 @@ font-size:16px;
 border-radius:4px;
 cursor:pointer;
 }
-
 button:hover{
 background:#005fd1;
 }
@@ -55,4 +54,17 @@ text-decoration:none;
 
 a:hover{
 text-decoration:underline;
+}
+.special-btn{
+background:#28a745;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+.special-btn:hover{
+background:#218838;
 }
