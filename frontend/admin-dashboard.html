@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard</title>
+
 <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
@@ -11,34 +16,124 @@
 
 <h2>Admin Dashboard</h2>
 
+<nav class="nav">
+<a href="#">Students</a>
+<a href="#">Courses</a>
+<a href="#">Results</a>
 <a href="index.html">Logout</a>
+</nav>
 
 </header>
 
+
 <div class="dashboard">
 
-<h3>Pending Students</h3>
+<h3>Pending Student Requests</h3>
 
 <table>
 
 <tr>
 <th>Name</th>
+<th>Email</th>
 <th>Status</th>
 <th>Action</th>
 </tr>
 
 <tr>
 <td>Example Student</td>
+<td>student@email.com</td>
 <td>Pending</td>
+
 <td>
+
 <button class="btn">Approve</button>
 <button class="btn btn-outline">Disapprove</button>
+
 </td>
+
 </tr>
 
 </table>
 
 </div>
+<script>
 
+const API = "https://your-worker-name.workers.dev"
+
+async function loadStudents(){
+
+const res = await fetch(API + "/students")
+
+const students = await res.json()
+
+const table = document.querySelector("table")
+
+students.forEach(s=>{
+
+const row = document.createElement("tr")
+
+row.innerHTML = `
+
+<td>${s.username}</td>
+<td>${s.email}</td>
+<td>${s.status}</td>
+
+<td>
+
+<button onclick="approve(${s.id})">Approve</button>
+
+<button onclick="disapprove(${s.id})">Disapprove</button>
+
+</td>
+
+`
+
+table.appendChild(row)
+
+})
+
+}
+
+async function approve(id){
+
+await fetch(API + "/approve",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({id})
+
+})
+
+location.reload()
+
+}
+
+
+async function disapprove(id){
+
+await fetch(API + "/disapprove",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({id})
+
+})
+
+location.reload()
+
+}
+
+
+loadStudents()
+
+</script>
 </body>
 </html>
