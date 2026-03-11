@@ -32,6 +32,8 @@ const data=await res.json()
 if(data.success){
 
 localStorage.setItem("token","logged")
+localStorage.setItem("username",username)
+
 location.href="dashboard.html"
 
 }else{
