@@ -1,4 +1,4 @@
-const API = "https://api.monirol4664.workers.dev/"
+const API = "https://api.monirol4664.workers.dev/worker"
 
 
 /* REGISTER */
