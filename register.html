@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Student Portal</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 1.5rem;
+      color: #1e293b;
+    }
+    .form-box {
+      max-width: 460px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    h1 {
+      text-align: center;
+      color: #1e40af;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin: 1.25rem 0 0.5rem;
+      font-weight: 500;
+      color: #334155;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      background: #1d4ed8;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .message {
+      text-align: center;
+      margin: 1.25rem 0;
+      font-weight: 500;
+    }
+    .error { color: #dc2626; }
+    .success { color: #16a34a; }
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-box">
+    <h1>Register</h1>
+
+    <form id="registerForm">
+      <label for="student_id">Student ID</label>
+      <input type="text" id="student_id" placeholder="CSE-2023-123" required />
+
+      <label for="full_name">Full Name</label>
+      <input type="text" id="full_name" placeholder="Md. Abdullah Al Mamun" required />
+
+      <label for="email">University Email</label>
+      <input type="email" id="email" placeholder="example@cityuni.edu.bd" required />
+
+      <label for="department">Department</label>
+      <input type="text" id="department" placeholder="Computer Science and Engineering" />
+
+      <label for="batch">Batch / Year</label>
+      <input type="text" id="batch" placeholder="Fall 2023" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="At least 8 characters" required minlength="8" />
+
+      <label for="password_confirm">Confirm Password</label>
+      <input type="password" id="password_confirm" required />
+
+      <button type="submit">Create Account</button>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async e => {
+      e.preventDefault()
+      const message = document.getElementById('message')
+      message.className = 'message'
+      message.textContent = ''
+
+      const pwd = document.getElementById('password').value
+      const pwdConfirm = document.getElementById('password_confirm').value
+
+      if (pwd !== pwdConfirm) {
+        message.className = 'message error'
+        message.textContent = 'Passwords do not match'
+        return
+      }
+
+      const payload = {
+        student_id: document.getElementById('student_id').value.trim(),
+        full_name:  document.getElementById('full_name').value.trim(),
+        email:      document.getElementById('email').value.trim().toLowerCase(),
+        department: document.getElementById('department').value.trim() || null,
+        batch:      document.getElementById('batch').value.trim(),
+        password:   pwd
+      }
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+
+        const data = await res.json()
+
+        if (res.ok) {
+          message.className = 'message success'
+          message.textContent = 'Account created successfully. Redirecting to login...'
+          setTimeout(() => location.href = 'login.html', 1800)
+        } else {
+          message.className = 'message error'
+          message.textContent = data.error || 'Registration failed'
+        }
+      } catch {
+        message.className = 'message error'
+        message.textContent = 'Network error – please try again'
+      }
+    })
+  </script>
+</body>
+</html>

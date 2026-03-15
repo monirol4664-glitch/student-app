@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Student Portal</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f1f5f9; margin: 0; padding: 1.5rem; color: #1e293b; }
+    .form-box { max-width: 420px; margin: 6rem auto; background: white; padding: 2.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    h1 { text-align: center; color: #1e40af; margin-bottom: 2rem; }
+    input { width: 100%; padding: 0.75rem; margin: 0.75rem 0; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; }
+    input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    button { width: 100%; padding: 1rem; margin-top: 1rem; background: #1d4ed8; color: white; border: none; border-radius: 0.5rem; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+    button:hover { background: #1e40af; }
+    .message { text-align: center; margin: 1.25rem 0; font-weight: 500; color: #dc2626; }
+    .register-link { text-align: center; margin-top: 1.5rem; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+  <div class="form-box">
+    <h1>Login</h1>
+
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="University Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="register-link">
+      New student? <a href="register.html">Register</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+      e.preventDefault()
+      const message = document.getElementById('message')
+      message.textContent = ''
+
+      const payload = {
+        email: document.getElementById('email').value.trim().toLowerCase(),
+        password: document.getElementById('password').value
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'include'
+        })
+
+        const data = await res.json()
+
+        if (res.ok) {
+          message.style.color = '#16a34a'
+          message.textContent = 'Login successful. Redirecting...'
+          setTimeout(() => location.href = 'profile.html', 1200)
+        } else {
+          message.textContent = data.error || 'Invalid credentials'
+        }
+      } catch {
+        message.textContent = 'Connection error'
+      }
+    })
+  </script>
+</body>
+</html>
