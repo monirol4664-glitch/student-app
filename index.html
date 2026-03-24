@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ShopHub | Minimalist Store</title>
+    <title>Zavir Fashion | Minimalist Store</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="header">
             <div class="header-content">
-                <a href="index.html" class="logo">Zavir<span> Fashion</span></a>
-                <div style="display: flex; gap: 16px; align-items: center;">
-                    <a href="order-status.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">Track Order</a>
+                <!-- Logo -->
+                <a href="index.html" class="logo">Zavir<span>Fashion</span></a>
+                
+                <!-- Navigation Links -->
+                <div class="nav-links">
+                    <a href="admin-login.html" class="nav-link">Admin</a>
                     <button id="cartIconBtn" class="cart-icon">
                         🛒 <span id="cartCount">0</span>
                     </button>
@@ -21,25 +25,88 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main>
         <div class="container">
+            <!-- Hero Section -->
             <div class="products-header">
                 <h1>products</h1>
                 <p>minimalist essentials for everyday life</p>
             </div>
+            
+            <!-- Track Order Toggle Button -->
+            <div class="track-toggle-container">
+                <button id="trackToggleBtn" class="track-toggle-btn">
+                    📦 Track Order <span class="toggle-icon">▼</span>
+                </button>
+            </div>
+            
+            <!-- Track Order Minimized Window -->
+            <div id="trackWindow" class="track-window minimized">
+                <div class="track-window-header">
+                    <span class="window-title">📦 Track Your Order</span>
+                    <button id="closeTrackBtn" class="close-window-btn">✕</button>
+                </div>
+                <div class="track-window-content">
+                    <p class="window-desc">Enter your order ID to check status</p>
+                    <div class="track-input-group">
+                        <input type="text" id="trackOrderId" placeholder="Order ID" maxlength="10">
+                        <button onclick="goToTrackOrder()" class="track-btn">Track →</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
             <div id="productsGrid" class="products-grid">
                 <div class="loading">loading products...</div>
             </div>
         </div>
     </main>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>© 2024 shophub — minimalist e-commerce</p>
+            <p>© 2024 Zavir Fashion — minimalist e-commerce</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="config.js"></script>
     <script src="script.js"></script>
+    <script>
+        function goToTrackOrder() {
+            const orderId = document.getElementById('trackOrderId').value.trim();
+            if (orderId) {
+                window.location.href = `order-status.html?id=${orderId}`;
+            } else {
+                window.location.href = 'order-status.html';
+            }
+        }
+        
+        // Toggle Track Window
+        const trackToggleBtn = document.getElementById('trackToggleBtn');
+        const trackWindow = document.getElementById('trackWindow');
+        const closeTrackBtn = document.getElementById('closeTrackBtn');
+        
+        function toggleWindow() {
+            trackWindow.classList.toggle('minimized');
+            trackWindow.classList.toggle('expanded');
+            const toggleIcon = trackToggleBtn.querySelector('.toggle-icon');
+            if (trackWindow.classList.contains('expanded')) {
+                toggleIcon.textContent = '▲';
+            } else {
+                toggleIcon.textContent = '▼';
+            }
+        }
+        
+        trackToggleBtn.addEventListener('click', toggleWindow);
+        closeTrackBtn.addEventListener('click', toggleWindow);
+        
+        document.getElementById('trackOrderId')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                goToTrackOrder();
+            }
+        });
+    </script>
 </body>
 </html>

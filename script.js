@@ -40,6 +40,64 @@ async function loadProducts() {
         grid.innerHTML = '<div class="loading">failed to load products. please try again.</div>';
     }
 }
+// Smooth image loading
+function loadImageSmooth(imgElement) {
+    if (imgElement.complete) {
+        imgElement.classList.add('loaded');
+    } else {
+        imgElement.addEventListener('load', function() {
+            this.classList.add('loaded');
+        });
+    }
+}
+
+// Update loadProducts function to include smooth image loading
+async function loadProducts() {
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '<div class="loading">loading products...</div>';
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/products`);
+        const products = await response.json();
+        
+        if (products.length === 0) {
+            grid.innerHTML = '<div class="loading">no products available</div>';
+            return;
+        }
+        
+        grid.innerHTML = products.map(product => `
+            <div class="product-card" data-id="${product.id}">
+                <img src="${product.image_url || '/images/placeholder.png'}" 
+                     alt="${product.name}" 
+                     class="product-image"
+                     loading="lazy"
+                     onerror="this.src='/images/placeholder.png'">
+                <div class="product-info">
+                    <div class="product-name">${escapeHtml(product.name)}</div>
+                    <div class="product-price">৳${product.price} <small>BDT</small></div>
+                    <div class="product-details product-size">size: ${product.size}</div>
+                    <div class="product-details product-code">code: ${product.code}</div>
+                    <div class="quantity-wrapper">
+                        <label>qty:</label>
+                        <input type="number" min="1" value="1" class="quantity-input" id="qty-${product.id}">
+                    </div>
+                    <button class="add-to-cart" onclick="handleAddToCart(${product.id})">
+                        add to cart
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Apply smooth loading to all images
+        document.querySelectorAll('.product-image').forEach(loadImageSmooth);
+        
+    } catch (error) {
+        console.error('Error loading products:', error);
+        grid.innerHTML = '<div class="loading">failed to load products. please try again.</div>';
+    }
+}
 
 function handleAddToCart(productId) {
     const card = document.querySelector(`.product-card[data-id="${productId}"]`);

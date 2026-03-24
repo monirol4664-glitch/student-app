@@ -470,3 +470,592 @@ footer {
 .hidden {
     display: none;
 }
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.nav-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #1a1a1a;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .nav-links {
+        gap: 12px;
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+    }
+}
+/* Smooth Rendering - Add at the top of your CSS file */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth Transitions for Interactive Elements */
+.logo,
+.nav-link,
+.cart-btn,
+.add-to-cart,
+.confirm-btn,
+.back-link,
+.primary-btn,
+.product-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Product Card Hover with Smooth Scale */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Button Hover Effects */
+.add-to-cart,
+.confirm-btn,
+.primary-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.add-to-cart::after,
+.confirm-btn::after,
+.primary-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.add-to-cart:active::after,
+.confirm-btn:active::after,
+.primary-btn:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+/* Image Loading Smooth */
+.product-image,
+.cart-item-image {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.product-image.loaded,
+.cart-item-image.loaded {
+    opacity: 1;
+}
+
+/* Smooth Loading Spinner */
+.loading {
+    text-align: center;
+    padding: 60px;
+    color: #888;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border: 2px solid #eaeaea;
+    border-top-color: #1a1a1a;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Smooth Modal Animation */
+.modal {
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-content {
+    animation: modalContentSlideIn 0.3s ease;
+}
+
+@keyframes modalContentSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth Cart Item Removal */
+.cart-item {
+    transition: all 0.3s ease;
+}
+
+.cart-item.removing {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+/* Smooth Notification */
+.notification {
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Page Transition */
+main {
+    animation: pageTransition 0.4s ease;
+}
+
+@keyframes pageTransition {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+/* Track Order Snippet - Middle Section */
+.track-snippet {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f0f0f0 100%);
+    border-radius: 16px;
+    padding: 24px 32px;
+    margin: 40px 0 60px 0;
+    border: 1px solid #eaeaea;
+    transition: all 0.3s ease;
+}
+
+.track-snippet:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+.track-snippet-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.track-icon {
+    font-size: 2.5rem;
+    background: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.track-text {
+    flex: 1;
+}
+
+.track-text h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #1a1a1a;
+}
+
+.track-text p {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.track-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.track-input-group input {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    width: 150px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-family: monospace;
+}
+
+.track-input-group input:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(26,26,26,0.1);
+    transform: scale(1.02);
+}
+
+.track-btn {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.track-btn:hover {
+    background: #333;
+    transform: translateX(3px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .track-snippet {
+        padding: 20px;
+        margin: 30px 0 40px 0;
+    }
+    
+    .track-snippet-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .track-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+    
+    .track-input-group {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .track-input-group input {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .track-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .track-snippet {
+        padding: 16px;
+    }
+    
+    .track-text h3 {
+        font-size: 1rem;
+    }
+    
+    .track-text p {
+        font-size: 0.75rem;
+    }
+}
+/* Track Order Toggle Button */
+.track-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 0 0;
+}
+
+.track-toggle-btn {
+    background: #f5f5f5;
+    border: 1px solid #eaeaea;
+    padding: 12px 28px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.track-toggle-btn:hover {
+    background: #eaeaea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.toggle-icon {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+/* Track Window */
+.track-window {
+    background: white;
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    margin: 16px auto 40px auto;
+    max-width: 450px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.track-window.minimized {
+    max-height: 0;
+    opacity: 0;
+    margin: 0 auto;
+    padding: 0;
+    visibility: hidden;
+}
+
+.track-window.expanded {
+    max-height: 300px;
+    opacity: 1;
+    margin: 16px auto 40px auto;
+    visibility: visible;
+}
+
+.track-window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.window-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.close-window-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #999;
+    padding: 4px 8px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.close-window-btn:hover {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.track-window-content {
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.window-desc {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.track-input-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.track-input-group input {
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    width: 160px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-family: monospace;
+}
+
+.track-input-group input:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(26,26,26,0.1);
+    transform: scale(1.02);
+}
+
+.track-btn {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.track-btn:hover {
+    background: #333;
+    transform: translateX(3px);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .track-toggle-btn {
+        padding: 10px 24px;
+        font-size: 0.85rem;
+    }
+    
+    .track-window {
+        max-width: 100%;
+        margin: 12px 16px 32px 16px;
+    }
+    
+    .track-window-content {
+        padding: 16px;
+    }
+    
+    .track-input-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .track-input-group input {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .track-btn {
+        width: 100%;
+    }
+    
+    .track-window.expanded {
+        max-height: 350px;
+    }
+}
