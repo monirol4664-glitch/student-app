@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'https://your-worker.your-subdomain.workers.dev'; // Replace with your Worker URL
+const API_BASE_URL = 'https://quiet-rice-d552.monirol4664.workers.dev'; // Replace with your Worker URL
 
 // Cart Storage (Session-only - clears on page refresh)
 let cartItems = [];

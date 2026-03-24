@@ -1,4 +1,4 @@
-const ADMIN_API_BASE = 'https://your-worker.your-subdomain.workers.dev';
+const ADMIN_API_BASE = 'https://quiet-rice-d552.monirol4664.workers.dev'; // Replace with your Worker URL
 const ADMIN_SECRET = localStorage.getItem('admin_token') || '';
 
 function isAdminLoggedIn() {
@@ -57,6 +57,7 @@ async function uploadProductImage(file) {
         const data = await response.json();
         return data.image_url;
     } else {
-        throw new Error('Image upload failed');
+        const error = await response.json();
+        throw new Error(error.error || 'Image upload failed');
     }
 }
