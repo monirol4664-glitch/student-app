@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHub | Your Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo">shop<span>hub</span></a>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <a href="order-status.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">Track Order</a>
+                    <button id="cartIconBtn" class="cart-icon">
+                        🛒 <span id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div id="cartContent" class="cart-content">
+                <!-- Cart content loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 shophub — minimalist e-commerce</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>

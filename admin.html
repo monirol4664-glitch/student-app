@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | ShopHub</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Zavir<span> Fashion</span></h2>
+                <p>admin panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="products">
+                    📦 Products
+                </button>
+                <button class="nav-btn" data-tab="orders">
+                    🧾 Orders
+                </button>
+                <button class="nav-btn" data-tab="settings">
+                    ⚙️ Settings
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Products Tab -->
+            <div id="productsTab" class="tab-content active">
+                <div class="tab-header">
+                    <h1>Products</h1>
+                    <button id="addProductBtn" class="primary-btn">+ Add New Product</button>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchProducts" placeholder="Search products...">
+                </div>
+                
+                <div id="productsList" class="products-list">
+                    <div class="loading">Loading products...</div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="ordersTab" class="tab-content">
+                <div class="tab-header">
+                    <h1>Orders</h1>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-status="all">All</button>
+                        <button class="filter-btn" data-status="pending">Pending</button>
+                        <button class="filter-btn" data-status="confirmed">Confirmed</button>
+                        <button class="filter-btn" data-status="cancelled">Cancelled</button>
+                    </div>
+                </div>
+                
+                <div id="ordersList" class="orders-list">
+                    <div class="loading">Loading orders...</div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settingsTab" class="tab-content">
+                <h1>Settings</h1>
+                
+                <div class="settings-card">
+                    <h3>Auto-Cleanup Settings</h3>
+                    <div class="form-group">
+                        <label>Auto-delete pending orders after (hours)</label>
+                        <input type="number" id="autoDeleteHours" value="24" min="1">
+                        <small>Orders pending payment will be automatically deleted</small>
+                    </div>
+                    <button id="saveCleanupBtn" class="primary-btn">Save Cleanup Settings</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Product</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="productForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (BDT) *</label>
+                    <input type="number" id="productPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Size *</label>
+                    <input type="text" id="productSize" placeholder="e.g., S, M, L or 30,32,34" required>
+                </div>
+                <div class="form-group">
+                    <label>Product Code *</label>
+                    <input type="text" id="productCode" placeholder="e.g., TS-001" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <input type="file" id="productImage" accept="image/*">
+                    <div id="imagePreview" class="image-preview"></div>
+                    <small>Upload product image (will be stored in /images/ folder)</small>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelModalBtn" class="secondary-btn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div id="orderDetails"></div>
+            <div class="modal-actions">
+                <button id="confirmOrderBtn" class="success-btn">✓ Confirm Order</button>
+                <button id="cancelOrderBtn" class="danger-btn">✗ Cancel Order</button>
+                <button id="deleteOrderBtn" class="delete-order-modal-btn">🗑️ Delete Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

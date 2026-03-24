@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status | ShopHub</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        .order-status-container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+        }
+        
+        .status-tracking {
+            margin: 40px 0;
+        }
+        
+        .status-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .status-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 20px;
+            z-index: 2;
+            background: white;
+            border: 2px solid #eaeaea;
+        }
+        
+        .status-step.completed .status-icon {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            color: white;
+        }
+        
+        .status-step.active .status-icon {
+            border-color: #e67e22;
+            background: #fff3e0;
+            color: #e67e22;
+        }
+        
+        .status-content {
+            flex: 1;
+        }
+        
+        .status-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .status-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .status-line {
+            position: absolute;
+            left: 24px;
+            top: 50px;
+            width: 2px;
+            height: calc(100% - 30px);
+            background: #eaeaea;
+            z-index: 1;
+        }
+        
+        .status-step:last-child .status-line {
+            display: none;
+        }
+        
+        .order-memo {
+            background: #fafafa;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .order-memo table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .order-memo th, .order-memo td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-memo th {
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .download-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .download-btn:hover {
+            background: #d35400;
+        }
+        
+        .search-form {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .search-form input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .search-form button {
+            margin-top: 16px;
+        }
+        
+        .order-id-input {
+            font-family: monospace;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: #fff3e0;
+            color: #e67e22;
+        }
+        
+        .status-confirmed {
+            background: #e0f7e8;
+            color: #2ecc71;
+        }
+        
+        .status-cancelled {
+            background: #fee;
+            color: #e74c3c;
+        }
+        
+        .copy-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+        
+        .copy-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .primary-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #1a1a1a;
+            text-decoration: none;
+            border: 1px solid #eaeaea;
+            padding: 10px 24px;
+            border-radius: 30px;
+            transition: all 0.2s;
+        }
+        
+        .back-link:hover {
+            background: #f5f5f5;
+        }
+        
+        @media (max-width: 640px) {
+            .order-status-container {
+                padding: 24px;
+                margin: 20px;
+            }
+            
+            .status-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .status-line {
+                left: 19px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo">Zavir<span> Fashion</span></a>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <a href="order-status.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">Track Order</a>
+                    <button id="cartIconBtn" class="cart-icon">
+                        🛒 <span id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div id="orderStatusContent" class="order-status-container">
+                <!-- Search Form or Order Details will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 shophub — minimalist e-commerce</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="order-status.js"></script>
+</body>
+</html>
