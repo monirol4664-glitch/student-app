@@ -1,5 +1,4 @@
 const ADMIN_API_BASE = 'https://quiet-rice-d552.monirol4664.workers.dev'; // Replace with your Worker URL
-const ADMIN_SECRET = localStorage.getItem('admin_token') || '';
 
 function isAdminLoggedIn() {
     return localStorage.getItem('admin_logged_in') === 'true';
@@ -14,8 +13,9 @@ function requireAdminLogin() {
 }
 
 function getAuthHeaders() {
+    const token = localStorage.getItem('admin_token');
     return {
-        'Authorization': `Bearer ${ADMIN_SECRET}`
+        'Authorization': `Bearer ${token}`
     };
 }
 
