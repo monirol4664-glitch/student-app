@@ -120,8 +120,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('API_BASE_URL:', API_BASE_URL);
     
     // Test API connection first
-    const testResult = await testAPI();
-    console.log('API Test Result:', testResult);
+    if (typeof testAPI === 'function') {
+        const testResult = await testAPI();
+        console.log('API Test Result:', testResult);
+    }
     
     // Load products
     await loadProducts();
