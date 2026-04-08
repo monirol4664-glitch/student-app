@@ -1,0 +1,61 @@
+---
+import '~/styles/global.css'; // Assuming you might add global styles later
+const { title, children } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | My Portfolio</title>
+    <style>
+        /* Base styles for layout */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header a {
+            color: #1abc9c;
+            text-decoration: none;
+        }
+        main {
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a> | <a href="#projects">Projects</a> | <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <main>
+        {children}
+    </main>
+    <footer>
+        <p>&copy; {new Date().getFullYear()} Portfolio Demo. Built with Astro.</p>
+    </footer>
+</body>
+</html>

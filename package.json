@@ -1,7 +1,6 @@
 {
-  "name": "portfolio-frontend",
-  "version": "0.0.0",
-  "private": true,
+  "name": "astro-portfolio",
+  "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -13,6 +12,6 @@
     "astro": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.16"
+    "prettier": "^3.0.3"
   }
 }
