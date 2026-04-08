@@ -1,11 +1,187 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Fetch data from D1 at build time (SSG)
+// For ISR/SSR, you'd use a different approach
+
+const db = Astro.locals.runtime.env.DB;
+
+// Get portfolio settings
+const settings = await db.prepare(
+  'SELECT key, value FROM portfolio_settings'
+).all();
+
+const portfolioData = settings.results.reduce((acc: any, row: any) => {
+  acc[row.key] = row.value;
+  return acc;
+}, {});
+
+// Get featured projects
+const projects = await db.prepare(
+  "SELECT * FROM projects WHERE featured = 1 ORDER BY created_at DESC LIMIT 3"
+).all();
+
+const featuredProjects = projects.results.map(p => ({
+  ...p,
+  tech_stack: p.tech_stack ? JSON.parse(p.tech_stack) : []
+}));
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Home | Portfolio">
+  <section class="hero section">
+    <div class="container">
+      <div class="hero-content">
+        {portfolioData.profile_image && (
+          <img src={portfolioData.profile_image} alt="Profile" class="profile-image" />
+        )}
+        <h1 set:html={portfolioData.hero_title || 'Hi, I\'m Your Name'}></h1>
+        <h2 set:html={portfolioData.hero_subtitle || 'Full-Stack Developer'}></h2>
+        <p set:html={portfolioData.hero_description || 'Building exceptional digital experiences'}></p>
+        <div class="hero-buttons">
+          <a href="/projects" class="btn btn-primary">View Projects</a>
+          <a href={`mailto:${portfolioData.contact_email}`} class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section about-section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <p set:html={portfolioData.about_text || 'I\'m a passionate developer...'}></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="container">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="grid">
+        {featuredProjects.map(project => (
+          <ProjectCard 
+            title={project.title}
+            description={project.description}
+            tech={project.tech_stack}
+            link={project.link}
+            image={project.image_data}
+          />
+        ))}
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/projects" class="btn btn-outline">View All Projects →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="contact-content">
+        <div class="social-links">
+          {portfolioData.github_url && (
+            <a href={portfolioData.github_url} target="_blank" rel="noopener">GitHub</a>
+          )}
+          {portfolioData.linkedin_url && (
+            <a href={portfolioData.linkedin_url} target="_blank" rel="noopener">LinkedIn</a>
+          )}
+          {portfolioData.twitter_url && (
+            <a href={portfolioData.twitter_url} target="_blank" rel="noopener">Twitter</a>
+          )}
+        </div>
+        <div class="contact-info">
+          <a href={`mailto:${portfolioData.contact_email}`} class="btn btn-primary">
+            Send Message
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 2rem;
+    border: 4px solid var(--primary);
+  }
+
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-content h2 {
+    font-size: 1.5rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-content p {
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    color: var(--secondary);
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .about-section {
+    background: var(--white);
+  }
+
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+
+  .contact-content {
+    text-align: center;
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .social-links a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .social-links a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+    
+    .hero-content h2 {
+      font-size: 1.25rem;
+    }
+  }
+</style>
