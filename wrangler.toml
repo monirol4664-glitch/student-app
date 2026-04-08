@@ -1,11 +1,12 @@
 name = "portfolio-website"
 main = "dist/_worker.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-12-18"
+pages_build_output_dir = "dist"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "portfolio-db"
-database_id = "your-database-id-here"  # Will be created after running wrangler d1 create
+database_id = "your-database-id-here"
 
 [env.production]
 vars = { ENVIRONMENT = "production" }

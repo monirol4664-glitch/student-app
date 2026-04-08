@@ -2,9 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 
-// Fetch data from D1 at build time (SSG)
-// For ISR/SSR, you'd use a different approach
-
 const db = Astro.locals.runtime.env.DB;
 
 // Get portfolio settings
@@ -35,12 +32,12 @@ const featuredProjects = projects.results.map(p => ({
         {portfolioData.profile_image && (
           <img src={portfolioData.profile_image} alt="Profile" class="profile-image" />
         )}
-        <h1 set:html={portfolioData.hero_title || 'Hi, I\'m Your Name'}></h1>
-        <h2 set:html={portfolioData.hero_subtitle || 'Full-Stack Developer'}></h2>
-        <p set:html={portfolioData.hero_description || 'Building exceptional digital experiences'}></p>
+        <h1>{portfolioData.hero_title || "Hi, I'm Your Name"}</h1>
+        <h2>{portfolioData.hero_subtitle || 'Full-Stack Developer & Creative Technologist'}</h2>
+        <p>{portfolioData.hero_description || 'I build exceptional digital experiences that combine beautiful design with powerful functionality.'}</p>
         <div class="hero-buttons">
           <a href="/projects" class="btn btn-primary">View Projects</a>
-          <a href={`mailto:${portfolioData.contact_email}`} class="btn btn-outline">Contact Me</a>
+          <a href={`mailto:${portfolioData.contact_email || 'your.email@example.com'}`} class="btn btn-outline">Contact Me</a>
         </div>
       </div>
     </div>
@@ -50,7 +47,7 @@ const featuredProjects = projects.results.map(p => ({
     <div class="container">
       <h2 class="section-title">About Me</h2>
       <div class="about-content">
-        <p set:html={portfolioData.about_text || 'I\'m a passionate developer...'}></p>
+        <p>{portfolioData.about_text || "I'm a passionate developer with years of experience building web applications. I love creating digital experiences that make a difference."}</p>
       </div>
     </div>
   </section>
@@ -91,7 +88,7 @@ const featuredProjects = projects.results.map(p => ({
           )}
         </div>
         <div class="contact-info">
-          <a href={`mailto:${portfolioData.contact_email}`} class="btn btn-primary">
+          <a href={`mailto:${portfolioData.contact_email || 'your.email@example.com'}`} class="btn btn-primary">
             Send Message
           </a>
         </div>

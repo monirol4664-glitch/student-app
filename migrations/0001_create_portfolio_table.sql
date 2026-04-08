@@ -19,27 +19,28 @@ CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
-    tech_stack TEXT,  -- JSON array
-    image_data TEXT,  -- RFC 2397 data URL
+    tech_stack TEXT,
+    image_data TEXT,
     link TEXT,
     featured BOOLEAN DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert default admin user (username: admin, password: admin123)
--- Change this immediately after first login!
-INSERT INTO admin_users (username, password_hash) 
-VALUES ('admin', '$2b$10$YourHashedPasswordHere');
-
 -- Insert default portfolio settings
-INSERT INTO portfolio_settings (key, value) VALUES 
-    ('hero_title', 'Hi, I''m [Your Name]'),
+INSERT OR IGNORE INTO portfolio_settings (key, value) VALUES 
+    ('hero_title', "Hi, I'm Your Name"),
     ('hero_subtitle', 'Full-Stack Developer & Creative Technologist'),
     ('hero_description', 'I build exceptional digital experiences that combine beautiful design with powerful functionality.'),
-    ('about_text', 'I''m a passionate developer with years of experience building web applications.'),
+    ('about_text', "I'm a passionate developer with years of experience building web applications. I love creating digital experiences that make a difference."),
     ('profile_image', ''),
     ('contact_email', 'your.email@example.com'),
     ('github_url', 'https://github.com/yourusername'),
     ('linkedin_url', 'https://linkedin.com/in/yourusername'),
     ('twitter_url', 'https://twitter.com/yourusername');
+
+-- Note: You need to insert admin user with proper bcrypt hash
+-- Run this command to generate hash: node -e "console.log(require('bcryptjs').hashSync('admin123', 10))"
+-- Then insert with the generated hash
+INSERT OR IGNORE INTO admin_users (username, password_hash) 
+VALUES ('admin', '$2b$10$YourGeneratedHashHere');

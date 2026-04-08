@@ -1,42 +1,27 @@
 import type { APIRoute } from 'astro';
-import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
-
-export const POST: APIRoute = async ({ request, env }) => {
+export const GET: APIRoute = async ({ env }) => {
     try {
-        // Verify JWT token
-        const authHeader = request.headers.get('Authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-                status: 401,
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
+        const settings = await env.DB.prepare(
+            'SELECT key, value FROM portfolio_settings'
+        ).all();
 
-        const token = authHeader.split(' ')[1];
-        try {
-            jwt.verify(token, JWT_SECRET);
-        } catch (err) {
-            return new Response(JSON.stringify({ error: 'Invalid token' }), {
-                status: 401,
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
+        const projects = await env.DB.prepare(
+            'SELECT id, title, description, tech_stack, image_data, link, featured, created_at, updated_at FROM projects ORDER BY featured DESC, created_at DESC'
+        ).all();
 
-        const body = await request.json();
-        const { key, value } = body;
+        const portfolioData = {
+            settings: settings.results.reduce((acc: any, row: any) => {
+                acc[row.key] = row.value;
+                return acc;
+            }, {}),
+            projects: projects.results.map((p: any) => ({
+                ...p,
+                tech_stack: p.tech_stack ? JSON.parse(p.tech_stack) : []
+            }))
+        };
 
-        // Update portfolio setting in D1
-        await env.DB.prepare(
-            `INSERT INTO portfolio_settings (key, value, updated_at) 
-             VALUES (?, ?, CURRENT_TIMESTAMP)
-             ON CONFLICT(key) DO UPDATE SET 
-             value = excluded.value, 
-             updated_at = CURRENT_TIMESTAMP`
-        ).bind(key, value).run();
-
-        return new Response(JSON.stringify({ success: true }), {
+        return new Response(JSON.stringify(portfolioData), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
         });

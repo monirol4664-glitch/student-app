@@ -9,7 +9,6 @@ export const POST: APIRoute = async ({ request, env }) => {
         const body = await request.json();
         const { username, password } = body;
 
-        // Query D1 database for admin user
         const user = await env.DB.prepare(
             'SELECT * FROM admin_users WHERE username = ?'
         ).bind(username).first();
@@ -21,7 +20,6 @@ export const POST: APIRoute = async ({ request, env }) => {
             });
         }
 
-        // Verify password
         const validPassword = await bcrypt.compare(password, user.password_hash);
         
         if (!validPassword) {
@@ -31,7 +29,6 @@ export const POST: APIRoute = async ({ request, env }) => {
             });
         }
 
-        // Generate JWT token
         const token = jwt.sign(
             { id: user.id, username: user.username },
             JWT_SECRET,

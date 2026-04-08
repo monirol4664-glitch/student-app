@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const db = Astro.locals.runtime.env.DB;
+
+const projects = await db.prepare(
+  "SELECT * FROM projects ORDER BY featured DESC, created_at DESC"
+).all();
+
+const allProjects = projects.results.map(p => ({
+  ...p,
+  tech_stack: p.tech_stack ? JSON.parse(p.tech_stack) : []
+}));
+---
+
+<Layout title="Projects | Portfolio">
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">My Projects</h1>
+      <p class="projects-subtitle">Here are some of my recent works and side projects</p>
+      <div class="grid">
+        {allProjects.map(project => (
+          <ProjectCard 
+            title={project.title}
+            description={project.description}
+            tech={project.tech_stack}
+            link={project.link}
+            image={project.image_data}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .projects-subtitle {
+    text-align: center;
+    color: var(--secondary);
+    margin-bottom: 3rem;
+    font-size: 1.125rem;
+  }
+</style>
