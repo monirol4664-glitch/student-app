@@ -5,80 +5,125 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch:  # allows manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   build-apk:
     runs-on: ubuntu-22.04
 
+    env:
+      ANDROID_SDK_ROOT: /home/runner/.buildozer/android/platform/android-sdk
+      ANDROID_NDK_ROOT: /home/runner/.buildozer/android/platform/android-ndk-r25b
+
     steps:
-      # â”€â”€ 1. Checkout your repo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 1. Checkout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # â”€â”€ 2. Set up Python â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 2. Free up disk space (~14 GB freed) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost \
+                      /usr/lib/jvm/temurin-17* "$AGENT_TOOLSDIRECTORY"
+          df -h
+
+      # â”€â”€ 3. Python â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # â”€â”€ 3. Install system dependencies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 4. System packages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Install system dependencies
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y \
-            git zip unzip \
-            openjdk-17-jdk \
+            git zip unzip wget \
+            openjdk-11-jdk \
             autoconf libtool pkg-config \
             zlib1g-dev libncurses5-dev libncursesw5-dev \
             cmake libffi-dev libssl-dev \
-            libltdl-dev build-essential \
-            ccache
+            libltdl-dev build-essential ccache
 
-      # â”€â”€ 4. Cache Buildozer global directory (.buildozer) â”€â”€â”€â”€â”€â”€
-      #    This caches the Android SDK/NDK download (~1 GB)
-      #    so subsequent runs are much faster.
-      - name: Cache Buildozer global dir
+      # â”€â”€ 5. Cache Android SDK + NDK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      - name: Cache Android SDK/NDK
         uses: actions/cache@v4
+        id: cache-android
         with:
-          path: ~/.buildozer
-          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            buildozer-${{ runner.os }}-
+          path: /home/runner/.buildozer/android/platform
+          key: android-sdk-ndk-${{ runner.os }}-v3
 
-      # â”€â”€ 5. Cache pip packages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 6. Install Android SDK manually (with license accept) â”€â”€
+      - name: Install Android SDK + accept licenses
+        if: steps.cache-android.outputs.cache-hit != 'true'
+        run: |
+          SDK_DIR=$ANDROID_SDK_ROOT
+          mkdir -p "$SDK_DIR"
+
+          # Download command-line tools
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip \
+            -O /tmp/cmdtools.zip
+          unzip -q /tmp/cmdtools.zip -d "$SDK_DIR"
+
+          SDKMANAGER="$SDK_DIR/tools/bin/sdkmanager"
+
+          # Pre-write ALL license hashes before sdkmanager runs
+          mkdir -p "$SDK_DIR/licenses"
+          printf "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee" \
+            > "$SDK_DIR/licenses/android-sdk-license"
+          printf "\n84831b9409646a918e30573bab4c9c91346d8abd" \
+            > "$SDK_DIR/licenses/android-sdk-preview-license"
+          printf "\n33b6937b7c819a7dad0e9be77ad63c0c6b5dfc6d" \
+            > "$SDK_DIR/licenses/android-googletv-license"
+
+          # Install platform-tools and build-tools (non-interactive)
+          yes | "$SDKMANAGER" \
+            --sdk_root="$SDK_DIR" \
+            "platform-tools" \
+            "build-tools;33.0.2" \
+            "platforms;android-33" 2>/dev/null || true
+
+          # Verify aidl exists
+          ls "$SDK_DIR/build-tools/33.0.2/aidl" && echo "aidl found"
+
+          # Download and unzip NDK
+          NDK_DIR=/home/runner/.buildozer/android/platform
+          wget -q https://dl.google.com/android/repository/android-ndk-r25b-linux.zip \
+            -O /tmp/ndk.zip
+          unzip -q /tmp/ndk.zip -d "$NDK_DIR"
+          echo "NDK unpacked"
+
+      # â”€â”€ 7. Cache pip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Cache pip
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            pip-${{ runner.os }}-
+          key: pip-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
 
-      # â”€â”€ 6. Install Buildozer + Cython â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      - name: Install Buildozer
+      # â”€â”€ 8. Install Buildozer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      - name: Install Buildozer + Cython
         run: |
           pip install --upgrade pip
-          pip install buildozer cython
+          pip install "buildozer" "cython==0.29.37"
 
-      # â”€â”€ 7. Accept Android SDK licenses (non-interactive) â”€â”€â”€â”€â”€â”€â”€
-      - name: Accept Android SDK licenses
+      # â”€â”€ 9. Configure Buildozer to use our pre-installed SDK/NDK â”€
+      - name: Patch buildozer.spec with SDK/NDK paths
         run: |
-          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-          echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" \
-            > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" \
-            > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
-          yes | ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager \
-            --sdk_root=$HOME/.buildozer/android/platform/android-sdk \
-            --licenses || true
+          cat >> buildozer.spec << 'EOF'
+          android.sdk_path = /home/runner/.buildozer/android/platform/android-sdk
+          android.ndk_path = /home/runner/.buildozer/android/platform/android-ndk-r25b
+          android.ant_path = /home/runner/.buildozer/android/platform/apache-ant-1.9.4
+          EOF
 
-      # â”€â”€ 8. Build the debug APK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 10. Build APK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Build APK (debug)
         run: |
           buildozer android debug 2>&1 | tee build.log
+        env:
+          ANDROID_SDK_ROOT: /home/runner/.buildozer/android/platform/android-sdk
+          ANDROID_NDK_ROOT: /home/runner/.buildozer/android/platform/android-ndk-r25b
 
-      # â”€â”€ 9. Upload APK as a downloadable artifact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 11. Upload APK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -86,7 +131,7 @@ jobs:
           path: bin/*.apk
           retention-days: 30
 
-      # â”€â”€ 10. Upload build log (useful if build fails) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 12. Upload build log (always) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Upload build log
         if: always()
         uses: actions/upload-artifact@v4
