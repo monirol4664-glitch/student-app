@@ -61,12 +61,24 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython
 
-      # â”€â”€ 7. Build the debug APK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 7. Accept Android SDK licenses (non-interactive) â”€â”€â”€â”€â”€â”€â”€
+      - name: Accept Android SDK licenses
+        run: |
+          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+          echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" \
+            > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" \
+            > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
+          yes | ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager \
+            --sdk_root=$HOME/.buildozer/android/platform/android-sdk \
+            --licenses || true
+
+      # â”€â”€ 8. Build the debug APK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Build APK (debug)
         run: |
           buildozer android debug 2>&1 | tee build.log
 
-      # â”€â”€ 8. Upload APK as a downloadable artifact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 9. Upload APK as a downloadable artifact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -74,7 +86,7 @@ jobs:
           path: bin/*.apk
           retention-days: 30
 
-      # â”€â”€ 9. Upload build log (useful if build fails) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      # â”€â”€ 10. Upload build log (useful if build fails) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       - name: Upload build log
         if: always()
         uses: actions/upload-artifact@v4
