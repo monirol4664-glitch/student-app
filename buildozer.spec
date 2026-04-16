@@ -1,24 +1,53 @@
 [app]
-title = GraphPlotter
-package.name = plotter
-package.domain = org.test
+
+# App title
+title = Graph Plotter
+
+# Package name (no spaces, lowercase)
+package.name = graphplotter
+
+# Package domain
+package.domain = org.example
+
+# Source directory (where main.py lives)
 source.dir = .
+
+# Main entry point
 source.include_exts = py,png,jpg,kv,atlas
-version = 0.1
 
-# PINNED REQUIREMENTS FOR STABILITY
-requirements = python3,hostpython3,kivy==2.3.0,numpy==1.26.4,sympy,mpmath
+# App version
+version = 1.0
 
-# ANDROID SETTINGS
+# Requirements — numpy is included for curve calculations
+requirements = python3,kivy==2.3.0,numpy
+
+# Orientation
 orientation = portrait
-android.archs = arm64-v8a, armeabi-v7a
+
+# Android permissions
+android.permissions = INTERNET
+
+# Android API targets
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
-android.ndk_api = 21
 
-# PREVENT SYMPY CRASHES
-android.whitelist = unittest/*
+# Architecture (armeabi-v7a covers most devices; add arm64-v8a for 64-bit)
+android.archs = arm64-v8a, armeabi-v7a
+
+# Fullscreen
+fullscreen = 0
+
+# Android theme — no title bar inside app
+android.theme = "@android:style/Theme.NoTitleBar"
+
+# Logcat filters for debugging
+android.logcat_filters = *:S python:D
 
 [buildozer]
+
+# Log level (0 = error only, 2 = verbose)
 log_level = 2
+
+# Warn before cleaning build folder
+warn_on_root = 1
