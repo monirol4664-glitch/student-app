@@ -1,3 +1,6 @@
+import os
+# This ensures Kivy knows how to handle the window on Android
+os.environ['KIVY_NO_ARGS'] = '1' 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
