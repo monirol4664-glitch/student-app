@@ -4,20 +4,23 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Build with Buildozer
-        uses: ArtemSerebriakov/buildozer-action@v1
+        # This is the official Kivy team action
+        uses: kivy/buildozer-action@v1.5.0
         with:
-          buildozer_version: master
+          # This specifies the command to run
+          command: buildozer android debug
+          # This version matches the Python version in your spec file
           python_version: 3.11
 
       - name: Upload APK
-        # Change this line from v2 to v4
-        uses: actions/upload-artifact@v4 
+        uses: actions/upload-artifact@v4
         with:
           name: Plotter-APK
-          # Path to where Buildozer saves the finished APK
           path: bin/*.apk
           
