@@ -1,46 +1,12 @@
-name: Build Android APK
-on: [push]
+[app]
+# ... (rest of your app info)
+requirements = python3,hostpython3,kivy==master,numpy,sympy,mpmath
 
-jobs:
-  build:
-    runs-on: ubuntu-22.04
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+# ADD THIS LINE - It prevents SymPy from crashing due to missing unittest
+android.whitelist = unittest/*
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python_version: '3.11'
-
-      - name: Install Android Build Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential git python3-dev python3-pip libffi-dev libssl-dev \
-            libltdl-dev libtool autoconf automake m4 bison flex cmake zip \
-            unzip pkg-config zlib1g-dev openjdk-17-jdk libtinfo5 libncurses5 \
-            libncursesw5-dev
-
-      - name: Install Buildozer and Cython
-        run: |
-          # Cython 3.x is incompatible with Kivy 2.3.0, must use 0.29.33
-          pip install --user --upgrade "buildozer" "Cython<3.0"
-          echo "/home/runner/.local/bin" >> $GITHUB_PATH
-
-      - name: Build with Buildozer
-        run: |
-          # The 'yes' command auto-accepts all Android SDK licenses
-          yes | buildozer -v android debug
-        env:
-          USER: runner
-
-      - name: Upload Finished APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: MathPlotter-Android-Package
-          path: bin/*.apk
-          
+# Change these to ensure we use the stable NDK for these libraries
+android.api = 31
+android.minapi = 21
+android.ndk = 25b
+android.ndk_api = 21
