@@ -1,23 +1,16 @@
 name: Build Android APK
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: [actions/checkout](https://github.com)@v4
-
-      - name: Build with Buildozer
-        # Using a community action specifically for Buildozer simplified the process
-        uses: [ArtemSBulgakov/buildozer-action](https://github.com/marketplace/actions/buildozer-action)@v1
+      - uses: actions/checkout@v4
+      - uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
-          buildozer_version: stable
-          workdir: .
-
-      - name: Upload APK
-        uses: [actions/upload-artifact](https://github.com)@v4
+          command: buildozer android debug
+      - uses: actions/upload-artifact@v4
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
