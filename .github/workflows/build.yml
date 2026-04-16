@@ -1,16 +1,25 @@
 name: Build Android APK
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ArtemSBulgakov/buildozer-action@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
           command: buildozer android debug
-      - uses: actions/upload-artifact@v4
+          buildozer_version: stable
+        # Add the env section below to fix the 'invalid user' error
+        env:
+          USER: root
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
