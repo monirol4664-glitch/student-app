@@ -1,39 +1,28 @@
-name: Build Android APK
-on: [push]
+[app]
+title = Math Plotter
+package.name = mathplotter
+package.domain = org.monirol
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas
+version = 0.1
 
-jobs:
-  build:
-    # Downgrading to 22.04 is the most stable way to build APKs right now
-    runs-on: ubuntu-22.04
+# CRITICAL: Pinning versions prevents "Exit Code 1"
+requirements = python3,hostpython3,kivy==2.3.0,numpy==1.26.4,sympy,mpmath
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+orientation = portrait
+fullscreen = 0
 
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential git python3-dev python3-pip libffi-dev libssl-dev \
-            libltdl-dev libtool autoconf automake m4 bison flex cmake zip \
-            unzip pkg-config zlib1g-dev openjdk-17-jdk libtinfo5
+# Android specific (Matches the Ubuntu 22.04 environment)
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.ndk_api = 21
+android.archs = arm64-v8a, armeabi-v7a
+android.allow_backup = True
 
-      - name: Install Buildozer & Cython
-        run: |
-          # Use Cython 0.29.33 for maximum compatibility with Kivy 2.3.0
-          pip3 install --user --upgrade buildozer "Cython<3.0"
-          echo "/home/runner/.local/bin" >> $GITHUB_PATH
+# Permissions for math logic and potential exports
+android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE
 
-      - name: Build APK
-        run: |
-          # The -v gives us the detailed log we need if this fails
-          yes | buildozer -v android debug
-        env:
-          USER: runner
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Plotter-APK
-          path: bin/*.apk
-          
+[buildozer]
+log_level = 2
+warn_on_root = 1
