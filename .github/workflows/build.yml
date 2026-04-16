@@ -14,13 +14,12 @@ jobs:
         with:
           command: buildozer android debug
           buildozer_version: stable
-        # Add the env section below to fix the 'invalid user' error
         env:
           USER: root
+          PIP_BREAK_SYSTEM_PACKAGES: 1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
-          
