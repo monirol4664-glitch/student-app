@@ -14,10 +14,9 @@ jobs:
         with:
           command: buildozer android debug
           buildozer_version: stable
+        # Add the env section below to fix the 'invalid user' error
         env:
           USER: root
-          # Add this line to fix the PEP 668 error
-          PIP_BREAK_SYSTEM_PACKAGES: 1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
