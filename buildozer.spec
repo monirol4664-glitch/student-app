@@ -18,7 +18,7 @@ source.include_exts = py,png,jpg,kv,atlas
 # App version
 version = 1.0
 
-# Requirements — numpy is included for curve calculations
+# Requirements â€” numpy is included for curve calculations
 requirements = python3,kivy==2.3.0,numpy
 
 # Orientation
@@ -38,7 +38,7 @@ android.archs = arm64-v8a, armeabi-v7a
 # Fullscreen
 fullscreen = 0
 
-# Android theme — no title bar inside app
+# Android theme â€” no title bar inside app
 android.theme = "@android:style/Theme.NoTitleBar"
 
 # Logcat filters for debugging
