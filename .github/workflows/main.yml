@@ -3,20 +3,18 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # Using a specific stable Ubuntu version
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Build with Buildozer
-        # This is the official Kivy team action
-        uses: kivy/buildozer-action@v1.5.0
+        # Using the exact casing and version from the official repo
+        uses: Kivy/buildozer-action@master 
         with:
-          # This specifies the command to run
           command: buildozer android debug
-          # This version matches the Python version in your spec file
-          python_version: 3.11
+          buildozer_version: master
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
