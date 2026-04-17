@@ -14,12 +14,29 @@ jobs:
         with:
           node-version: '20'
       
-      - run: npm install -g @ionic/cli @capacitor/cli
-      - run: npm install
-      - run: ionic build
-      - run: npx cap add android
-      - run: npx cap sync
-      - run: cd android && ./gradlew assembleDebug
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli
+      
+      - name: Build React app
+        run: npm run build
+      
+      - name: Install Capacitor
+        run: npm install @capacitor/android @capacitor/core
+      
+      - name: Add Android platform
+        run: npx cap add android
+      
+      - name: Sync with Android
+        run: npx cap sync
+      
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+      
+      - name: Build APK
+        run: cd android && ./gradlew assembleDebug
       
       - uses: actions/upload-artifact@v4
         with:
