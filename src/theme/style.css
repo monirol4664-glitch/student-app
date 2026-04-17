@@ -1,0 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ion-button {
+  --box-shadow: none;
+  font-weight: bold;
+}
