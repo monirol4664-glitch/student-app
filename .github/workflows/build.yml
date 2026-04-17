@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Android APK
 on:
   push:
     branches: [ main ]
@@ -7,24 +7,63 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v4
       
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+      
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
       
       - name: Install dependencies
-        run: |
-          npm install
-          npm install -g @ionic/cli
+        run: npm install
       
-      - name: Build
+      - name: Build React
+        run: npm run build
+        env:
+          CI: false
+      
+      - name: Setup Capacitor
         run: |
-          npm run build
-          npx cap add android
-          npx cap sync
-          cd android && chmod +x gradlew && ./gradlew assembleDebug
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+      
+      - name: Create Capacitor config
+        run: |
+          cat > capacitor.config.ts << 'EOF'
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'com.example.app',
+  appName: 'MyApp',
+  webDir: 'build',
+  bundledWebRuntime: false
+};
+
+export default config;
+EOF
+      
+      - name: Initialize Capacitor
+        run: npx cap init MyApp com.example.app --web-dir=build
+      
+      - name: Add Android
+        run: npx cap add android
+      
+      - name: Sync with Android
+        run: npx cap sync android
+      
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+      
+      - name: Build APK
+        run: |
+          cd android
+          ./gradlew assembleDebug --no-daemon
       
       - uses: actions/upload-artifact@v4
         with:
