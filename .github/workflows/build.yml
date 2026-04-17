@@ -1,4 +1,4 @@
-name: Build Ionic APK
+name: Build APK
 on:
   push:
     branches: [ main ]
@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v4
       
@@ -20,29 +19,39 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       
-      - name: Install Ionic CLI
-        run: npm install -g @ionic/cli
-      
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Build Ionic app
-        run: ionic build
-      
-      - name: Install Capacitor Android
+      - name: Create Ionic project
         run: |
-          npm install @capacitor/android
-          npx cap init DemoApp com.demo.app --web-dir=build
-          npx cap add android
-          npx cap sync
+          npm install -g @ionic/cli
+          ionic start myapp blank --type=react --no-interactive --quiet
+          cp -r myapp/* .
+          rm -rf myapp
+      
+      - name: Replace with your files
+        run: |
+          cp index.html public/
+          cp index.js src/
+          rm -f src/App.tsx src/App.css
+      
+      - name: Fix index.js to use your App
+        run: |
+          cat > src/index.js << 'EOF'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+EOF
       
       - name: Build APK
         run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          npm install
+          ionic build
+          npx cap add android
+          npx cap sync
+          cd android && chmod +x gradlew && ./gradlew assembleDebug
       
       - uses: actions/upload-artifact@v4
         with:
-          name: ionic-demo-apk
+          name: app-debug
           path: android/app/build/outputs/apk/debug/*.apk
