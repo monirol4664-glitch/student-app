@@ -3,7 +3,8 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.calculator.app',
   appName: 'Calculator',
-  webDir: 'dist',
+  webDir: 'build',
+  bundledWebRuntime: false,
   android: {
     allowMixedContent: true
   }
