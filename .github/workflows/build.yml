@@ -17,11 +17,21 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-        cache: 'gradle'
     
-    # Uses GitHub's PRE-INSTALLED SDK (no installation needed)
-    - name: Grant execute permission
+    # Make gradlew executable (ONLY needed if file exists)
+    - name: Make gradlew executable
       run: chmod +x gradlew
+      continue-on-error: true  # Won't fail if file missing
+    
+    # If wrapper missing, generate it
+    - name: Setup Gradle Wrapper
+      run: |
+        if [ ! -f "gradlew" ]; then
+          echo "⚠️ gradlew not found, creating wrapper..."
+          wget https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+          wget https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.properties -O gradle/wrapper/gradle-wrapper.properties
+          chmod +x gradlew
+        fi
     
     - name: Build APK
       run: ./gradlew assembleDebug --no-daemon
