@@ -74,7 +74,7 @@ const App: React.FC = () => {
     height: '80px',
     fontSize: '24px',
     margin: '4px',
-    '--border-radius': '12px'
+    borderRadius: '12px'
   };
 
   return (
@@ -104,32 +104,34 @@ const App: React.FC = () => {
             <IonCol><IonButton expand="block" style={buttonStyle} color="light" onClick={() => performOperation('÷')}>÷</IonButton></IonCol>
           </IonRow>
 
-          {[
-            ['7', '8', '9', '×'],
-            ['4', '5', '6', '-'],
-            ['1', '2', '3', '+'],
-            ['0', '.', '=']
-          ].map((row, i) => (
-            <IonRow key={i}>
-              {row.map((btn) => (
-                <IonCol key={btn}>
-                  <IonButton
-                    expand="block"
-                    style={buttonStyle}
-                    color={btn === '=' ? 'success' : ['÷', '×', '-', '+'].includes(btn) ? 'warning' : 'secondary'}
-                    onClick={() => {
-                      if (btn === '=') evaluate();
-                      else if (btn === '.') inputDecimal();
-                      else if (['÷', '×', '-', '+'].includes(btn)) performOperation(btn);
-                      else inputDigit(btn);
-                    }}
-                  >
-                    {btn}
-                  </IonButton>
-                </IonCol>
-              ))}
-            </IonRow>
-          ))}
+          <IonRow>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('7')}>7</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('8')}>8</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('9')}>9</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="warning" onClick={() => performOperation('×')}>×</IonButton></IonCol>
+          </IonRow>
+
+          <IonRow>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('4')}>4</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('5')}>5</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('6')}>6</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="warning" onClick={() => performOperation('-')}>-</IonButton></IonCol>
+          </IonRow>
+
+          <IonRow>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('1')}>1</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('2')}>2</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('3')}>3</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="warning" onClick={() => performOperation('+')}>+</IonButton></IonCol>
+          </IonRow>
+
+          <IonRow>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={() => inputDigit('0')}>0</IonButton></IonCol>
+            <IonCol><IonButton expand="block" style={buttonStyle} color="secondary" onClick={inputDecimal}>.</IonButton></IonCol>
+            <IonCol size="2">
+              <IonButton expand="block" style={buttonStyle} color="success" onClick={evaluate}>=</IonButton>
+            </IonCol>
+          </IonRow>
         </IonGrid>
       </IonContent>
     </IonApp>
