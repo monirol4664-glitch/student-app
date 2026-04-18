@@ -1,28 +1,28 @@
-import { IonApp, IonContent, IonHeader, IonTitle, IonToolbar, IonButton } from '@ionic/react';
-import { useState } from 'react';
+import React from 'react';
 
-/* Core CSS */
+/* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
 const App: React.FC = () => {
-  const [message, setMessage] = useState('Tap button');
-
   return (
-    <IonApp>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>My APK Test</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      
-      <IonContent className="ion-padding">
-        <h2>Working on Phone!</h2>
-        <p>{message}</p>
-        <IonButton onClick={() => setMessage('APK built successfully! 🎉')}>
-          Test Me
-        </IonButton>
-      </IonContent>
-    </IonApp>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Student App</h1>
+      <p>Your app is working perfectly on Android!</p>
+      <button 
+        onClick={() => alert('Hello from your phone!')}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          backgroundColor: '#3880ff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer'
+        }}
+      >
+        Tap Me
+      </button>
+    </div>
   );
 };
 
