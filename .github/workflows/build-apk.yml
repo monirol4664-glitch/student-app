@@ -23,7 +23,23 @@ jobs:
       
       - uses: android-actions/setup-android@v3
       
-      - name: Clean install dependencies
+      - name: Remove any old config files
+        run: |
+          rm -f capacitor.config.ts
+          rm -f capacitor.config.js
+          rm -f capacitor.config.json
+      
+      - name: Create fresh config file
+        run: |
+          cat > capacitor.config.json << 'EOF'
+          {
+            "appId": "com.student.app",
+            "appName": "Student App",
+            "webDir": "build"
+          }
+          EOF
+      
+      - name: Install dependencies
         run: |
           rm -rf node_modules package-lock.json
           npm install
@@ -34,13 +50,13 @@ jobs:
       - name: Install Capacitor
         run: npm install -g @capacitor/cli
       
-      - name: Initialize Capacitor
-        run: npx cap init Student App com.student.app --web-dir=build
+      - name: Initialize Capacitor (CORRECT SYNTAX)
+        run: npx cap init "Student App" com.student.app --web-dir=build
       
-      - name: Add Android platform
+      - name: Add Android
         run: npx cap add android
       
-      - name: Sync Capacitor
+      - name: Sync
         run: npx cap sync
       
       - name: Build APK
