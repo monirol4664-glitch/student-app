@@ -7,51 +7,44 @@ on:
 
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install dependencies with legacy peer deps
-        run: npm install --legacy-peer-deps
-
-      - name: Build web assets
+          node-version: '20'
+      
+      - uses: android-actions/setup-android@v3
+      
+      - name: Clean install dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
+      
+      - name: Build web app
         run: npm run build
-
-      - name: Install Capacitor
+      
+      - name: Setup Capacitor
         run: |
           npm install -g @capacitor/cli
-          npx cap init StudentApp com.student.app --web-dir=build
+          npx cap init StudentApp com.student.app
           npx cap add android
-
-      - name: Sync Capacitor
-        run: npx cap sync android
-
-      - name: Make gradlew executable
-        run: chmod +x android/gradlew
-
-      - name: Build Debug APK
-        run: cd android && ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+          npx cap sync
+      
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      
+      - uses: actions/upload-artifact@v4
         with:
-          name: student-app-debug
+          name: student-app
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 30
