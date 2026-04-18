@@ -1,9 +1,10 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.yourcompany.yourapp',
-  appName: 'Your App Name',
-  webDir: 'dist',
+  appId: 'com.student.app',
+  appName: 'Student App',
+  webDir: 'build',
+  bundledWebRuntime: false,
   server: {
     androidScheme: 'https'
   }
