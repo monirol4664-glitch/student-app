@@ -23,17 +23,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          # REMOVED the cache line that was causing the error
+          node-version: '18'
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Ionic CLI
-        run: npm install -g @ionic/cli
-
-      - name: Install dependencies
-        run: npm install  # Using install instead of ci (doesn't need lock file)
+      - name: Install dependencies with legacy peer deps
+        run: npm install --legacy-peer-deps
 
       - name: Build web assets
         run: npm run build
@@ -41,7 +37,7 @@ jobs:
       - name: Install Capacitor
         run: |
           npm install -g @capacitor/cli
-          npx cap init StudentApp com.student.app
+          npx cap init StudentApp com.student.app --web-dir=build
           npx cap add android
 
       - name: Sync Capacitor
